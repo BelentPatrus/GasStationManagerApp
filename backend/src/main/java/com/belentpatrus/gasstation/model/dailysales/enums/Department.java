@@ -7,7 +7,8 @@ public enum Department {
     DISPENSED_BEVERAGES(5),
     PHONE_CARDS(8),
     LOTTERY_AND_GAMING(9),
-    EXEMPT_ZERO_RATED(10);
+    EXEMPT_ZERO_RATED(10),
+    OTHER(9999);
     private final int id;
 
     Department(int id) {
@@ -24,6 +25,7 @@ public enum Department {
                 return dept;
             }
         }
-        throw new IllegalArgumentException("Invalid department ID: " + id);
+        System.out.println("Department not found: " + id);
+        return OTHER;
     }
 }
