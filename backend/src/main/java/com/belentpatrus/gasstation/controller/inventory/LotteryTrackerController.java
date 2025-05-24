@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "${frontend.origin}")
 @RequestMapping("/lottery")
 @RestController
 public class LotteryTrackerController {
