@@ -8,7 +8,6 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "${frontend.origin}")
 public class ExcelController {
 
     private MerchandiseItemSaleExcelReaderService myService;
