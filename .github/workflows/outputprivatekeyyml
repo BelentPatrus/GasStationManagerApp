@@ -1,0 +1,2 @@
+name: Show private key
+run: cat ~/.ssh/ci_deploy_key
