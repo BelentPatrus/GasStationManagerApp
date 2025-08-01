@@ -16,5 +16,7 @@ public interface DailyMerchandiseSalesRepository extends JpaRepository<DailyMerc
     List<DailyMerchandiseSales> findByDate(LocalDate date);
     @Query("SELECT m FROM MerchandiseItemSale m WHERE m.dailyMerchandiseSales.date = :date AND m.productCategory = :category")
     List<MerchandiseItemSale> findSalesByDateAndCategory(@Param("date") LocalDate date, @Param("category") ProductCategory category);
+    @Query("SELECT e.date FROM DailyMerchandiseSales e WHERE YEAR(e.date) = :year AND MONTH(e.date) = :month")
+    List<LocalDate> findDatesByYearAndMonth(@Param("year") int year, @Param("month") int month);
 
 }

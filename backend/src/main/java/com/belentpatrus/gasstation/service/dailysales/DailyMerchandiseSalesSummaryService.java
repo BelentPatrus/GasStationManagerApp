@@ -76,4 +76,12 @@ public class DailyMerchandiseSalesSummaryService {
             dto.getProductCategorySales().put(productCategory, getTotalSoldByProductCategory(dailyMerchandiseSales.getId(), productCategory));
         }
     }
+
+    public List<LocalDate> getAllDailyMerchandiseSales(String date) {
+        LocalDate localDate = LocalDate.parse(date);
+        int year = localDate.getYear();
+        int month = localDate.getMonthValue();
+
+        return repo.findDatesByYearAndMonth(year, month);
+    }
 }
