@@ -13,6 +13,7 @@ COPY . .
 # Add this argument to allow mode switching
 
 RUN echo "Building with VITE_MODE=$VITE_MODE"
+COPY .env.$VITE_MODE .env  
 RUN npm run build -- --mode $VITE_MODE
 
 # Stage 2: Serve with Nginx
