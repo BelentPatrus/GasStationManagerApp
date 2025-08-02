@@ -6,7 +6,7 @@ import OpenedTicketsDisplay from "./lotterycomponents/OpenedTicketsDisplay";
 import MorningCountInput from "./lotterycomponents/MorningCountInput";
 import OpenedTicketsInput from "./lotterycomponents/OpenedTicketsInput";
 import { useNavigate } from "react-router-dom";
-import { API_BASE_URL } from "./config/api";
+import { API_BASE_URL } from "../config/api";
 
 const ticketOptions = ["$2", "$3", "$5", "$10", "$20", "$30", "$50", "$100"];
 

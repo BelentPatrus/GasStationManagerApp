@@ -1,7 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { API_BASE_URL } from "./config/api";
+import { API_BASE_URL } from "../config/api";
 
 const LotteryInventoryTrackerSuccessPage = () => {
   const { date } = useParams(); // Extract the date from the URL

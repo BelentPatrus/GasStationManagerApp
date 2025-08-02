@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { API_BASE_URL } from "./config/api";
+import { API_BASE_URL } from "../config/api";
 
 const DailyCashTrackerForm = () => {
   const [formData, setFormData] = useState({
