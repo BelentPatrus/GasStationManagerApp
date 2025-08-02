@@ -6,6 +6,7 @@ import OpenedTicketsDisplay from "./lotterycomponents/OpenedTicketsDisplay";
 import MorningCountInput from "./lotterycomponents/MorningCountInput";
 import OpenedTicketsInput from "./lotterycomponents/OpenedTicketsInput";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../config/api";
 
 const ticketOptions = ["$2", "$3", "$5", "$10", "$20", "$30", "$50", "$100"];
 
@@ -24,7 +25,7 @@ const LotteryInventoryTracker = () => {
     if (!selectedDate) return;
 
     try {
-      const { data } = await axios.get(`http://localhost:8080/lottery/log/${selectedDate}`);
+      const { data } = await axios.get(`${API_BASE_URL}/lottery/log/${selectedDate}`);
       if (!data) return setLotteryData(null);
 
       setLotteryData(data);
@@ -67,7 +68,7 @@ const LotteryInventoryTracker = () => {
     };
   
     try {
-      const response = await axios.post("http://localhost:8080/lottery/save", requestData);
+      const response = await axios.post(`${API_BASE_URL}/lottery/save`, requestData);
       // Navigate to success page after submission
             // Navigate to success page with the selected date
             navigate(`/lottery/${selectedDate}/success`);
