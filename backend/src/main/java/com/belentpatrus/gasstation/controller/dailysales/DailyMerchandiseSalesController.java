@@ -1,6 +1,7 @@
 package com.belentpatrus.gasstation.controller.dailysales;
 
 
+import com.belentpatrus.gasstation.model.dailysales.DailyMerchandiseSales;
 import com.belentpatrus.gasstation.model.dailysales.enums.Department;
 import com.belentpatrus.gasstation.service.dailysales.DailyMerchandiseSalesSummaryService;
 import com.belentpatrus.gasstation.service.util.SyncService;
@@ -10,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping("/consumer")
 @RestController()
 public class DailyMerchandiseSalesController {
@@ -31,6 +32,12 @@ public class DailyMerchandiseSalesController {
     public DailyMerchandiseSalesSummaryDTO getSummary(@PathVariable String date) {
         LocalDate localDate = LocalDate.parse(date);
         return dailyMerchandiseSalesSummaryService.getDailyMerchandiseSales(localDate);
+    }
+
+    @GetMapping("/all/{date}")
+    public List<LocalDate> getAllDailyMerchandiseSales(@PathVariable String date){
+
+        return dailyMerchandiseSalesSummaryService.getAllDailyMerchandiseSales(date);
     }
 
     @GetMapping("/{id}/{department}")
