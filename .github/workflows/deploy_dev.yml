@@ -13,7 +13,8 @@ jobs:
       - name: Pull latest code
         run: |
           cd ~/apps/GasStationManagerApp
-          git pull origin dev
+          git fetch origin dev
+          git reset --hard origin/dev
 
       - name: Build backend (skip tests)
         run: |
