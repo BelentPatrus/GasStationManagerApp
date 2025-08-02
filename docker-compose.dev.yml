@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  postgres_dev:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: dev_db
+    volumes:
+      - pgdata_dev:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"  # external:internal
+
+  backend_dev:
+    build:
+      context: ./backend
+    depends_on:
+      - postgres_dev
+    ports:
+      - "8081:8080"  # external:internal
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_dev:5432/dev_db
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: secret
+
+  frontend_dev:
+    build:
+      context: ./frontend
+    ports:
+      - "3001:80"  # external:internal
+    depends_on:
+      - backend_dev
+
+volumes:
+  pgdata_dev:

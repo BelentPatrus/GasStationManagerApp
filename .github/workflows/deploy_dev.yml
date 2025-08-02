@@ -1,33 +1,33 @@
-name: Deploy to Raspberry Pi
+name: Deploy Dev to Raspberry Pi
 
 on:
   push:
     branches:
-      - main
+      - dev
 
 jobs:
-  deploy:
+  deploy-dev:
     runs-on: self-hosted
 
     steps:
       - name: Pull latest code
         run: |
           cd ~/apps/GasStationManagerApp
-          git pull origin main
+          git pull origin dev
 
       - name: Build backend (skip tests)
         run: |
           cd ~/apps/GasStationManagerApp/backend
           ./mvnw clean package -DskipTests
 
-      - name: Restart Docker
+      - name: Restart Dev Docker
         run: |
           cd ~/apps/GasStationManagerApp
-          docker-compose down
-          docker-compose up -d --build
+          docker-compose docker-compose.dev.yml down
+          docker-compose docker-compose.dev.yml up -d --build
       - name: Notify deployment success
         run: |
-          echo "Deployment to production environment successful!"
+          echo "Deployment to Dev environment successful!"
           # Optionally, you can add a notification step here (e.g., Slack, email)
       - name: Clean up old images
         run: |
