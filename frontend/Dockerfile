@@ -2,13 +2,17 @@
 FROM node:20 AS build
 
 WORKDIR /app
+
 ARG VITE_MODE=production
+ENV VITE_MODE=$VITE_MODE
+
 COPY package*.json ./
 RUN npm install
 
 COPY . .
 # Add this argument to allow mode switching
 
+RUN echo "Building with VITE_MODE=$VITE_MODE"
 RUN npm run build -- --mode $VITE_MODE
 
 # Stage 2: Serve with Nginx
