@@ -7,7 +7,9 @@ COPY package*.json ./
 RUN npm install
 
 COPY . .
-RUN npm run build
+# Add this argument to allow mode switching
+ARG VITE_MODE=production
+RUN npm run build -- --mode $VITE_MODE
 
 # Stage 2: Serve with Nginx
 FROM nginx:alpine
