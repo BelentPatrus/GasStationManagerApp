@@ -19,6 +19,7 @@ jobs:
       - name: Build backend (skip tests)
         run: |
           cd ~/apps/GasStationManagerApp/backend
+          chmod +x ./mvnw
           ./mvnw clean package -DskipTests
 
       - name: Restart Dev Docker
