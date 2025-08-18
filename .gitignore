@@ -19,6 +19,7 @@ frontend/.env.local
 frontend/.env.development.local
 frontend/.env.test.local
 frontend/.env.production.local
+frontend/.env*
 
 # === Java / Spring Boot Backend ===
 backend/target/
@@ -47,3 +48,5 @@ yarn-error.log*
 # === Git ===
 *.swp
 *.swo
+
+/Local_ENVs/
