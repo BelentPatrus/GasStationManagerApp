@@ -24,6 +24,7 @@ public class Product {
     private String brand;
     private Department department;
     private ProductCategory productCategory;
+    private String packageDescription;
     private double baseCost;
     private int currentStock;
 

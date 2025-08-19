@@ -24,6 +24,9 @@ const Navbar = () => {
             <li className="nav-item">
               <Link className="nav-link" to="/uploadExcel">Upload Excel</Link>
             </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/products">Products</Link>
+            </li>
           </ul>
         </div>
       </div>
