@@ -34,7 +34,6 @@ lerna-debug.log*
 .editorconfig
 
 # Dependencies
-package-lock.json
 yarn.lock
 pnpm-lock.yaml
 
