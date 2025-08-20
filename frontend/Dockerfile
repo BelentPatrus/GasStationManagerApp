@@ -1,21 +1,12 @@
-# Stage 1: Build the Vite app
-FROM node:20 AS build
-
+# --- build stage ---
+FROM node:20-alpine AS build
 WORKDIR /app
-
-
 COPY package*.json ./
-RUN npm install
-
+RUN npm ci
 COPY . .
-# Add this argument to allow mode switching
+RUN npm run build          # standard Vite production build
 
-RUN npm run build:dev
-
-# Stage 2: Serve with Nginx
+# --- serve stage ---
 FROM nginx:alpine
-
-# Copy the Vite output (dist folder) to nginx html dir
 COPY --from=build /app/dist /usr/share/nginx/html
-
-# Optional: add custom nginx.conf if you want to support SPA routing
+# nginx config will be mounted by docker-compose

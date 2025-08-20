@@ -12,7 +12,7 @@ import { API_BASE_URL } from "../config/api";
  *   "/consumer/products" or "/api/products").
  */
 
-const API_PRODUCTS = `${API_BASE_URL}/product/`; // <-- change to your real endpoint
+const API_PRODUCTS = `/product/`; // <-- change to your real endpoint
 
 function parseJsonOrThrow(res) {
   return res.text().then((text) => {

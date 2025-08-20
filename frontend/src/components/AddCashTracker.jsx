@@ -53,7 +53,7 @@ const DailyCashTrackerForm = () => {
     setErrorMessage("");
 
     try {
-      const response = await axios.post(`${API_BASE_URL}/cash/${formData.date}`, formData);
+      const response = await axios.post(`/cash/${formData.date}`, formData);
       if (response.data) {
         setSuccessMessage("Daily Cash Tracker saved successfully!");
         setFormData({

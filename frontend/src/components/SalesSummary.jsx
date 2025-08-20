@@ -28,7 +28,7 @@ const SalesSummary = () => {
       const monthStr = String(month + 1).padStart(2, '0');
       const dateStr = `${year}-${monthStr}-01`;
       
-      const response = await axios.get(`${API_BASE_URL}/consumer/all/${dateStr}`);
+      const response = await axios.get(`/consumer/all/${dateStr}`);
       setAvailableDates(response.data || []);
     } catch (error) {
       console.error("Error fetching available dates:", error);
@@ -48,7 +48,7 @@ const SalesSummary = () => {
   const fetchSalesData = async () => {
     if (!date) return;
     try {
-      const response = await axios.get(`${API_BASE_URL}/consumer/${date}`);
+      const response = await axios.get(`/consumer/${date}`);
       if (response.data && response.data.merchandiseItemSales.length > 0) {
         setSalesData(response.data);
         setNoData(false);
