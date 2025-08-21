@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRef } from "react";
-import EditModal from "./productcomponents/editmodal.jsx";
+import EditModal from "./productcomponents/EditModal.jsx";
 
 /**
  * BasicProductsTable — minimal, nice-looking Bootstrap table
