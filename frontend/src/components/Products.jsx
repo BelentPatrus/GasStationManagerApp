@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { API_BASE_URL } from "../config/api";
+import { useRef } from "react";
+import EditModal from "./productcomponents/editmodal.jsx";
+
 /**
  * BasicProductsTable — minimal, nice-looking Bootstrap table
  * Columns: upc, description, brand, department, productCategory, packageDescription, baseCost, currentStock
@@ -37,6 +39,7 @@ export default function Products() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [q, setQ] = useState("");
+  const modalRef = useRef(null);
 
   const filteredRows = React.useMemo(() => {
     const needle = q.trim().toLowerCase();
@@ -99,7 +102,6 @@ export default function Products() {
           Refresh
         </button>
       </div>
-
       <div className="card shadow-sm">
         <div className="table-responsive" style={{ overflowX: "auto" }}>
           <div className="mb-3 d-flex">
@@ -129,8 +131,15 @@ export default function Products() {
                   Base Cost
                 </th>
                 <th scope="col" className="text-end">
+                  Retail Price
+                </th>
+                <th scope="col" className="text-end">
+                  Profit Margin %
+                </th>
+                <th scope="col" className="text-end">
                   Stock
                 </th>
+                <th className="text-end">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -160,7 +169,9 @@ export default function Products() {
 
               {!loading &&
                 !error &&
-                !loading && !error && filteredRows.map((p) => (
+                !loading &&
+                !error &&
+                filteredRows.map((p) => (
                   <tr key={p.upc}>
                     <td className="font-monospace">{p.upc}</td>
                     <td>{p.description}</td>
@@ -180,13 +191,38 @@ export default function Products() {
                         ? `$${Number(p.baseCost).toFixed(2)}`
                         : "—"}
                     </td>
+                    <td className="text-end">{0}</td>
+                    <td className="text-end">{0}</td>
                     <td className="text-end">{p.currentStock ?? "—"}</td>
+                    <td className="text-end">
+                      <button
+                        onClick={() => {
+                          console.log("row at edit:", p);
+                          modalRef.current?.open(p);
+                        }}
+                      >
+                        Edit
+                      </button>
+                    </td>
                   </tr>
                 ))}
             </tbody>
           </table>
         </div>
       </div>
+      // render the modal once near the bottom of Products.jsx:
+      <EditModal
+        ref={modalRef}
+        onSaved={(updated, oldUPC) => {
+          setRows((prev) => {
+            const i = prev.findIndex((p) => p.upc === oldUPC);
+            if (i === -1) return prev;
+            const copy = [...prev];
+            copy[i] = updated;
+            return copy;
+          });
+        }}
+      />
     </div>
   );
 }
