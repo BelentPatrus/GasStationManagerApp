@@ -1,11 +1,10 @@
 package com.belentpatrus.gasstation.controller.inventory;
 
 import com.belentpatrus.gasstation.model.inventory.Product;
+import com.belentpatrus.gasstation.service.dto.ProductDTO;
 import com.belentpatrus.gasstation.service.inventory.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,5 +21,10 @@ public class ProductController {
     @GetMapping("/")
     public List<Product> getProducts() {
         return productService.getProducts();
+    }
+
+    @PutMapping(path = "/update", consumes = "application/json", produces = "application/json")
+    public ProductDTO updateProduct(@RequestBody ProductDTO productDTO) {
+        return productService.updateProduct(productDTO);
     }
 }

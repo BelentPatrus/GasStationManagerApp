@@ -3,6 +3,7 @@ import { forwardRef, useImperativeHandle, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
 const API_BASE = "/product";
+const UPDATE_URL = "/product/update"; // Nginx will proxy this to the backend
 
 const getModalRoot = () => {
   let el = document.getElementById("modal-root");
@@ -32,8 +33,8 @@ const EditModal = forwardRef(function EditModal({ onSaved }, ref) {
         department: row.department ?? "",
         category: row.productCategory ?? "",
         packageType: row.packageDescription ?? "",
-        baseCost: Number(row.baseCost ?? 0),
-        retailCost: Number(row.retailCost ?? 0),
+        baseCost: Number(row.retailPrice ?? 0),
+        retailCost: Number(row.retailPrice ?? 0),
         stock: Number(row.currentStock ?? 0),
       });
     },
@@ -59,20 +60,50 @@ const EditModal = forwardRef(function EditModal({ onSaved }, ref) {
   }
 
   async function save() {
-    if (!draft || !originalUPC) return;
+    if (!draft) return;
     setSaving(true);
+
     try {
-      const res = await fetch(
-        `${API_BASE}/${encodeURIComponent(originalUPC)}`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(draft),
-        }
-      );
-      if (!res.ok) throw new Error(`Save failed: ${res.status}`);
-      const updated = await res.json();
-      onSaved?.(updated, originalUPC);
+      // Build exactly what your API expects.
+      // (If your DTO uses different names, change them here.)
+      const payload = {
+        upc: String(draft.upc).trim(),
+        description: draft.description?.trim() ?? "",
+        brand: draft.brand?.trim() ?? "",
+        department: draft.department?.trim() ?? "",
+        productCategory: draft.category?.trim() ?? "",
+        packageDescription: draft.packageType?.trim() ?? "",
+        costOfGood: Number(draft.baseCost ?? 0),
+        retailPrice: Number(draft.retailCost ?? 0),
+        currentStock: Number(draft.stock ?? 0),
+      };
+      console.log("Saving product:", payload);
+
+      const res = await fetch(UPDATE_URL, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      // Some backends return 204 No Content; some return the updated product.
+      if (!res.ok) {
+        const text = await res.text();
+        console.error("SAVE FAILED:", res.status, text, payload);
+        throw new Error(text || `HTTP ${res.status}`);
+      }
+
+      let updated = payload;
+      try {
+        // if server returns JSON, prefer it
+        updated = await res.json();
+      } catch {
+        /* no body (204) — fall back to our payload */
+      }
+
+      // tell parent to update the table (oldUPC lets parent replace the right row)
+      onSaved?.(updated, originalUPC ?? payload.upc);
+
+      // close + reset
       setOpen(false);
       setDraft(null);
       setOriginalUPC(null);

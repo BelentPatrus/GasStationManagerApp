@@ -187,12 +187,24 @@ export default function Products() {
                     </td>
                     <td>{p.packageDescription}</td>
                     <td className="text-end">
-                      {p.baseCost != null
-                        ? `$${Number(p.baseCost).toFixed(2)}`
+                      {p.costOfGood != null
+                        ? `$${Number(p.costOfGood).toFixed(2)}`
                         : "—"}
                     </td>
-                    <td className="text-end">{0}</td>
-                    <td className="text-end">{0}</td>
+                    <td className="text-end">
+                      {p.retailPrice != null
+                        ? `$${Number(p.retailPrice).toFixed(2)}`
+                        : "—"}
+                    </td>
+                    <td className="text-end">
+                      {p.costOfGood != null && p.retailPrice != null && p.retailPrice > 0
+                        ? `${
+                            Number(
+                              (p.retailPrice - p.costOfGood) / p.retailPrice
+                            ).toFixed(2) * 100
+                          }%`
+                        : "—"}
+                    </td>
                     <td className="text-end">{p.currentStock ?? "—"}</td>
                     <td className="text-end">
                       <button
@@ -210,7 +222,6 @@ export default function Products() {
           </table>
         </div>
       </div>
-      // render the modal once near the bottom of Products.jsx:
       <EditModal
         ref={modalRef}
         onSaved={(updated, oldUPC) => {

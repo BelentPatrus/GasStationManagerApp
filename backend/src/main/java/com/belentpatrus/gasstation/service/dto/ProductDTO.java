@@ -1,24 +1,16 @@
-package com.belentpatrus.gasstation.model.inventory;
+package com.belentpatrus.gasstation.service.dto;
 
 
 import com.belentpatrus.gasstation.model.dailysales.enums.Department;
 import com.belentpatrus.gasstation.model.dailysales.enums.ProductCategory;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Component;
 
-@Entity
-@Component
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Product {
-    @Id
+public class ProductDTO {
     private String upc;
     private String description;
     private String brand;

@@ -13,4 +13,5 @@ import java.util.Set;
 public interface ProductRepository extends JpaRepository<Product, String> {
     @Query("select p.upc from Product p where p.upc in :upcs")
     Set<String> findExistingUpcs(@Param("upcs") Collection<String> upcs);
+
 }
