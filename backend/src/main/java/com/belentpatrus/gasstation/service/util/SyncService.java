@@ -58,6 +58,7 @@ public class SyncService {
                             p.setBrand(Optional.ofNullable(s.getDescription()).orElse("Unknown"));                  // if you have it
                             p.setProductCategory(s.getProductCategory());
                             p.setPackageDescription(Optional.ofNullable(s.getPackageDescription()).orElse("Unknown"));
+                            p.setRetailPrice(s.getUnitRetail());
                             return p;
                         },
                         (p1, p2) -> p1    // keep first if duplicates

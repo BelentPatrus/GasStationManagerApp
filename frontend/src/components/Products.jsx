@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useRef } from "react";
 import EditModal from "./productcomponents/EditModal.jsx";
+import AddProductModal from "./productcomponents/AddProductModal.jsx";
 
 /**
  * BasicProductsTable — minimal, nice-looking Bootstrap table
@@ -40,6 +41,7 @@ export default function Products() {
   const [error, setError] = useState("");
   const [q, setQ] = useState("");
   const modalRef = useRef(null);
+  const addProductRef = useRef(null);
 
   const filteredRows = React.useMemo(() => {
     const needle = q.trim().toLowerCase();
@@ -94,13 +96,23 @@ export default function Products() {
     <div className="container my-4">
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h1 className="h4 m-0">Products</h1>
-        <button
-          className="btn btn-outline-secondary"
-          onClick={load}
-          disabled={loading}
-        >
-          Refresh
-        </button>
+        <div>
+          <button
+            className="btn btn-outline-secondary padding-2 me-2"
+            onClick={load}
+            disabled={loading}
+          >
+            Refresh
+          </button>
+          <button  className="btn btn-outline-secondary padding-2 me-2"
+            onClick={() => {
+              console.log("adding product");
+              addProductRef.current?.open();
+            }}
+          >
+            Add Product
+          </button>
+        </div>
       </div>
       <div className="card shadow-sm">
         <div className="table-responsive" style={{ overflowX: "auto" }}>
@@ -197,7 +209,9 @@ export default function Products() {
                         : "—"}
                     </td>
                     <td className="text-end">
-                      {p.costOfGood != null && p.retailPrice != null && p.retailPrice > 0
+                      {p.costOfGood != null &&
+                      p.retailPrice != null &&
+                      p.retailPrice > 0
                         ? `${
                             Number(
                               (p.retailPrice - p.costOfGood) / p.retailPrice
@@ -227,6 +241,18 @@ export default function Products() {
         onSaved={(updated, oldUPC) => {
           setRows((prev) => {
             const i = prev.findIndex((p) => p.upc === oldUPC);
+            if (i === -1) return prev;
+            const copy = [...prev];
+            copy[i] = updated;
+            return copy;
+          });
+        }}
+      />
+      <AddProductModal
+        ref={addProductRef}
+        onSaved={(updated, oldUPC) => {
+          setRows((prev) => {
+            const i = prev.findIndex((p) => p.upc);
             if (i === -1) return prev;
             const copy = [...prev];
             copy[i] = updated;

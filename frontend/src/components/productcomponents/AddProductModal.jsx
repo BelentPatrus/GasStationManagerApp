@@ -1,9 +1,8 @@
-// EditModal.jsx
 import { forwardRef, useImperativeHandle, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
 const API_BASE = "/product";
-const UPDATE_URL = "/product/update"; // Nginx will proxy this to the backend
+const ADD_URL = "/product/create"; // Nginx will proxy this to the backend
 
 const getModalRoot = () => {
   let el = document.getElementById("modal-root");
@@ -15,33 +14,30 @@ const getModalRoot = () => {
   return el;
 };
 
-const EditModal = forwardRef(function EditModal({ onSaved }, ref) {
+const AddProductModal = forwardRef(function AddProductModal({ onSaved }, ref) {
   const [open, setOpen] = useState(false);
   const [saving, setSaving] = useState(false);
   const [draft, setDraft] = useState(null);
-  const [originalUPC, setOriginalUPC] = useState(null);
   const modalRoot = getModalRoot();
 
   useImperativeHandle(ref, () => ({
-    open(row) {
+    open() {
       setOpen(true); // open first so overlay appears immediately
-      setOriginalUPC(row.upc);
       setDraft({
-        upc: row.upc,
-        description: row.description ?? "",
-        brand: row.brand ?? "",
-        department: row.department ?? "",
-        category: row.productCategory ?? "",
-        packageType: row.packageDescription ?? "",
-        baseCost: Number(row.costOfGood ?? 0),
-        retailCost: Number(row.retailPrice ?? 0),
-        stock: Number(row.currentStock ?? 0),
+        upc: "",
+        description: "",
+        brand: "",
+        department: "",
+        category: "",
+        packageType: "",
+        baseCost: Number(0),
+        retailCost: Number(0),
+        stock: Number(0),
       });
     },
     close() {
       setOpen(false);
       setDraft(null);
-      setOriginalUPC(null);
     },
   }));
 
@@ -79,8 +75,8 @@ const EditModal = forwardRef(function EditModal({ onSaved }, ref) {
       };
       console.log("Saving product:", payload);
 
-      const res = await fetch(UPDATE_URL, {
-        method: "PUT",
+      const res = await fetch(ADD_URL, {
+        method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
@@ -101,12 +97,11 @@ const EditModal = forwardRef(function EditModal({ onSaved }, ref) {
       }
 
       // tell parent to update the table (oldUPC lets parent replace the right row)
-      onSaved?.(updated, originalUPC ?? payload.upc);
+      onSaved?.(updated, payload.upc);
 
       // close + reset
       setOpen(false);
       setDraft(null);
-      setOriginalUPC(null);
     } catch (e) {
       alert(e.message || "Could not save");
     } finally {
@@ -139,28 +134,22 @@ const EditModal = forwardRef(function EditModal({ onSaved }, ref) {
           style={{ width: "100%", maxWidth: 672 }}
           onClick={(e) => e.stopPropagation()}
         >
-          {/* header */}
           <div className="flex items-center justify-between px-5 py-4 border-b">
-            <h2 className="text-lg font-semibold">
-              Edit Product —{" "}
-              <span className="text-gray-600">{originalUPC ?? ""}</span>
-            </h2>
-            <button
-              className="rounded-md px-3 py-1.5 hover:bg-gray-100"
-              onClick={() => setOpen(false)}
-            >
-              Close
-            </button>
+            <h2 className="text-lg font-semibold">Add Product</h2>
           </div>
 
-          {/* body (show a loader while draft hydrates) */}
           {!draft ? (
             <div className="px-5 py-10 text-center text-gray-500">Loading…</div>
           ) : (
             <div className="px-5 py-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* your inputs — keep exactly as you had, just using draft?.field */}
-              {/* Example: */}
               {console.log(draft)}
+               <Field label="UPC">
+                <input
+                  className="w-full rounded-lg border px-3 py-2"
+                  value={draft.UPC}
+                  onChange={(e) => onChange("UPC", e.target.value)}
+                />
+              </Field>
               <Field label="Description">
                 <input
                   className="w-full rounded-lg border px-3 py-2"
@@ -232,11 +221,17 @@ const EditModal = forwardRef(function EditModal({ onSaved }, ref) {
               Cancel
             </button>
             <button
-              className="rounded-lg px-4 py-2 bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-60"
+              className="rounded-lg px-4 py-2 border hover:bg-gray-50 padding-2"
               onClick={save}
               disabled={saving || !draft}
             >
               {saving ? "Saving..." : "Save changes"}
+            </button>
+            <button
+              className="rounded-lg px-4 py-2 border hover:bg-gray-50"
+              onClick={() => setOpen(false)}
+            >
+              Close
             </button>
           </div>
         </div>
@@ -246,7 +241,7 @@ const EditModal = forwardRef(function EditModal({ onSaved }, ref) {
   );
 });
 
-export default EditModal;
+export default AddProductModal;
 
 function Field({ label, children }) {
   return (
