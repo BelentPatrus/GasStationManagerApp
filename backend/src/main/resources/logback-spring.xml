@@ -1,0 +1,41 @@
+<!-- src/main/resources/logback-spring.xml -->
+<configuration>
+
+    <!-- Example: grab Spring properties if you need them -->
+    <springProperty scope="context" name="appName" source="spring.application.name" defaultValue="app"/>
+
+    <!-- Spring Boot color & pretty-stack converters -->
+    <conversionRule conversionWord="clr"
+                    converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
+    <conversionRule conversionWord="wex"
+                    converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter"/>
+
+    <property name="PRETTY_PATTERN"
+              value="%d{HH:mm:ss.SSS} %highlight(%-5level) %clr([%thread]){faint} %clr(%logger{36}){cyan}%clr(%replace(%X{requestId}){'^(.+)$',' rid=$1'}){magenta} %kvp - %msg%n%wex"/>
+
+    <!-- DEV/DEFAULT: pretty console with MDC + key/values -->
+    <springProfile name="default,dev">
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                <pattern>${PRETTY_PATTERN}</pattern>
+            </encoder>
+        </appender>
+
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
+
+    <!-- PROD example (you can keep same pattern or swap to JSON later) -->
+    <springProfile name="prod">
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                <pattern>%d{ISO8601} %-5level [%thread] %logger{36} reqId=%X{requestId} %kvp - %msg%n</pattern>
+            </encoder>
+        </appender>
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
+
+</configuration>

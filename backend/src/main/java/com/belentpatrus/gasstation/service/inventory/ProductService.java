@@ -22,7 +22,6 @@ public class ProductService {
     }
 
     public List<Product> getProducts() {
-        log.info("Getting all products");
         return productRepository.findAll();
     }
 
@@ -31,7 +30,6 @@ public class ProductService {
         if (product != null) {
             dtoToProduct(productDTO, product);
             productRepository.save(product);
-            log.info("saved product : {}", productDTO);
             return productDTO;
         } else {
             log.warn("product not found : {}", productDTO);
@@ -47,7 +45,6 @@ public class ProductService {
     }
 
     private void dtoToProduct(ProductDTO productDTO, Product product) {
-        log.info("Updating product : {}{}", productDTO, product);
         product.setDescription(productDTO.getDescription());
         product.setBrand(productDTO.getBrand());
         product.setDepartment(productDTO.getDepartment());

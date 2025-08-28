@@ -24,7 +24,7 @@ public class HttpLoggingFilter extends OncePerRequestFilter {
         String requestId = Optional.ofNullable(request.getHeader("X-Request-ID"))
                 .filter(s -> !s.isBlank())
                 .orElse(UUID.randomUUID().toString());
-        MDC.put("requestId", requestId);
+        MDC.put("requestId", requestId.substring(0, 8));
 
         String method = request.getMethod();
         String uri = request.getRequestURI();
