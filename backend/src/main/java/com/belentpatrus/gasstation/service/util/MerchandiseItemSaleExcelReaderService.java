@@ -125,8 +125,15 @@ public class MerchandiseItemSaleExcelReaderService {
         } catch (EncryptedDocumentException | IOException e) {
             e.printStackTrace();
         }
+
+        List<DailyMerchandiseSales> existing = dailyMerchandiseSalesRepository.findByDate(dailyMerchandiseSales.getDate());
+
+        if (!existing.isEmpty()) {
+            dailyMerchandiseSales.setId(existing.get(0).getId());
+        }
         dailyMerchandiseSales.setMerchandiseItemSales(products);
         return dailyMerchandiseSalesRepository.save(dailyMerchandiseSales);
+
     }
 
     private void totalRow(Row row, DailyMerchandiseSales dailyMerchandiseSales) {
