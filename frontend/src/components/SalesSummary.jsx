@@ -208,9 +208,6 @@ const SalesSummary = () => {
                 className="btn btn-outline-primary"
                 onClick={() => {
                   setIsCalendarVisible(!isCalendarVisible);
-                  if (!isCalendarVisible) {
-                    fetchAvailableDates(currentYear, currentMonth);
-                  }
                 }}
               >
                 {isCalendarVisible ? 'Hide Calendar' : 'Show Calendar'}

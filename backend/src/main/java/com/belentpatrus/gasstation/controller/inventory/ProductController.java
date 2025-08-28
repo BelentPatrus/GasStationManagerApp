@@ -30,13 +30,11 @@ public class ProductController {
 
     @PutMapping(path = "/update", consumes = "application/json", produces = "application/json")
     public ProductDTO updateProduct(@RequestBody ProductDTO productDTO) {
-        log.info("Updating product: {}", productDTO);
         return productService.updateProduct(productDTO);
     }
 
     @PostMapping(path = "/create", consumes = "application/json", produces = "application/json")
     public Product createProduct(@RequestBody ProductDTO productDTO) {
-        log.info("Creating product: {}", productDTO);
         return productService.createProduct(productDTO);
     }
 }
