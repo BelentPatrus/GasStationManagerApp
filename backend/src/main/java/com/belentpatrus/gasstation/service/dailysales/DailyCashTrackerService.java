@@ -1,18 +1,18 @@
 package com.belentpatrus.gasstation.service.dailysales;
 
 import com.belentpatrus.gasstation.model.inventory.DailyCashTracker;
-import com.belentpatrus.gasstation.repository.dailysales.DailyCashTrackerRepository;
+import com.belentpatrus.gasstation.repository.primary.dailysales.DailyCashTrackerPrimaryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class DailyCashTrackerService {
 
-    private DailyCashTrackerRepository dailyCashTrackerRepository;
+    private DailyCashTrackerPrimaryRepository dailyCashTrackerRepository;
 
 
     @Autowired
-    public DailyCashTrackerService(DailyCashTrackerRepository dailyCashTrackerRepository) {
+    public DailyCashTrackerService(DailyCashTrackerPrimaryRepository dailyCashTrackerRepository) {
         this.dailyCashTrackerRepository = dailyCashTrackerRepository;
     }
 

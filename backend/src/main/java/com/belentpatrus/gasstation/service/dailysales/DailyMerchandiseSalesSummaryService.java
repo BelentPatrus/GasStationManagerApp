@@ -4,7 +4,7 @@ import com.belentpatrus.gasstation.model.dailysales.DailyMerchandiseSales;
 import com.belentpatrus.gasstation.model.enums.Department;
 import com.belentpatrus.gasstation.model.dailysales.MerchandiseItemSale;
 import com.belentpatrus.gasstation.model.enums.ProductCategory;
-import com.belentpatrus.gasstation.repository.dailysales.DailyMerchandiseSalesRepository;
+import com.belentpatrus.gasstation.repository.primary.dailysales.DailyMerchandiseSalesPrimaryRepository;
 import com.belentpatrus.gasstation.service.dto.DailyMerchandiseSalesSummaryDTO;
 import com.belentpatrus.gasstation.service.dto.MerchandiseItemSaleDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +17,10 @@ import java.util.stream.Collectors;
 @Service
 public class DailyMerchandiseSalesSummaryService {
 
-    private final DailyMerchandiseSalesRepository repo;
+    private final DailyMerchandiseSalesPrimaryRepository repo;
 
     @Autowired
-    public DailyMerchandiseSalesSummaryService(DailyMerchandiseSalesRepository repo) {
+    public DailyMerchandiseSalesSummaryService(DailyMerchandiseSalesPrimaryRepository repo) {
         this.repo = repo;
     }
 

@@ -13,10 +13,12 @@ import java.util.Properties;
 public class EmailService {
 
     MerchandiseItemSaleExcelReaderService myService;
+    DualDatabaseEmailService dualDatabaseEmailService;
 
     @Autowired
-    public EmailService(MerchandiseItemSaleExcelReaderService myService) {
+    public EmailService(MerchandiseItemSaleExcelReaderService myService, DualDatabaseEmailService dualDatabaseEmailService) {
         this.myService = myService;
+        this.dualDatabaseEmailService = dualDatabaseEmailService;
     }
 
     private String emailUsername = "dailyreport42020@gmail.com";
@@ -54,9 +56,7 @@ public class EmailService {
                     InputStream is = attachmentPart.getInputStream();
                     is.transferTo(fos);
 
-
-                    // Pass the file path to your method for processing
-                    myService.readProductsFromExcel(tempFile.getAbsolutePath());
+                    dualDatabaseEmailService.processEmailAndSaveToBothDatabases(tempFile.getAbsolutePath());
                 }
             }
         } catch (NoSuchProviderException e) {

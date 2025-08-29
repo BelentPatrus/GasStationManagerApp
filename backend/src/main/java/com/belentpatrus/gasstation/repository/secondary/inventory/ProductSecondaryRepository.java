@@ -1,4 +1,4 @@
-package com.belentpatrus.gasstation.repository.inventory;
+package com.belentpatrus.gasstation.repository.secondary.inventory;
 
 import com.belentpatrus.gasstation.model.inventory.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.Set;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, String> {
+public interface ProductSecondaryRepository extends JpaRepository<Product, String> {
     @Query("select p.upc from Product p where p.upc in :upcs")
     Set<String> findExistingUpcs(@Param("upcs") Collection<String> upcs);
 

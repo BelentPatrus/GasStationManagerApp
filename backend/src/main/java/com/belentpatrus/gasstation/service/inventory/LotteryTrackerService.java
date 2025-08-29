@@ -2,7 +2,7 @@ package com.belentpatrus.gasstation.service.inventory;
 
 import com.belentpatrus.gasstation.model.enums.ProductCategory;
 import com.belentpatrus.gasstation.model.inventory.LotteryTrackerLog;
-import com.belentpatrus.gasstation.repository.inventory.LotteryTrackerRepository;
+import com.belentpatrus.gasstation.repository.primary.inventory.LotteryTrackerPrimaryRepository;
 import com.belentpatrus.gasstation.service.dailysales.DailyMerchandiseSalesSummaryService;
 import com.belentpatrus.gasstation.service.dto.LotteryTrackerLogDTO;
 import com.belentpatrus.gasstation.service.dto.LotteryTrackerLogDailyReportDTO;
@@ -18,11 +18,11 @@ import java.util.Map;
 @Service
 public class LotteryTrackerService {
 
-    LotteryTrackerRepository lotteryRepo;
+    LotteryTrackerPrimaryRepository lotteryRepo;
     DailyMerchandiseSalesSummaryService dailyMerchandiseSalesSummaryService;
 
     @Autowired
-    public LotteryTrackerService(LotteryTrackerRepository lotteryRepo, DailyMerchandiseSalesSummaryService dailyMerchandiseSalesSummaryService) {
+    public LotteryTrackerService(LotteryTrackerPrimaryRepository lotteryRepo, DailyMerchandiseSalesSummaryService dailyMerchandiseSalesSummaryService) {
         this.lotteryRepo = lotteryRepo;
         this.dailyMerchandiseSalesSummaryService = dailyMerchandiseSalesSummaryService;
     }

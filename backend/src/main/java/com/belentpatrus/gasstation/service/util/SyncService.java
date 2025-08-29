@@ -3,6 +3,8 @@ package com.belentpatrus.gasstation.service.util;
 import com.belentpatrus.gasstation.model.inventory.Product;
 import com.belentpatrus.gasstation.repository.dailysales.DailyMerchandiseSalesRepository;
 import com.belentpatrus.gasstation.repository.inventory.ProductRepository;
+import com.belentpatrus.gasstation.repository.primary.dailysales.DailyMerchandiseSalesPrimaryRepository;
+import com.belentpatrus.gasstation.repository.primary.inventory.ProductPrimaryRepository;
 import com.belentpatrus.gasstation.service.dto.DailyMerchandiseSalesSummaryDTO;
 import com.belentpatrus.gasstation.service.dto.MerchandiseItemSaleDTO;
 import com.belentpatrus.gasstation.service.dto.SyncDailyMerchandiseSalesAndProductDTO;
@@ -14,11 +16,11 @@ import java.util.stream.Collectors;
 
 @Service
 public class SyncService {
-    private final ProductRepository productRepository;
-    private final DailyMerchandiseSalesRepository dailyMerchandiseSalesRepository;
+    private final ProductPrimaryRepository productRepository;
+    private final DailyMerchandiseSalesPrimaryRepository dailyMerchandiseSalesRepository;
 
     @Autowired
-    public SyncService(ProductRepository productRepository, DailyMerchandiseSalesRepository dailyMerchandiseSalesRepository) {
+    public SyncService(ProductPrimaryRepository productRepository, DailyMerchandiseSalesPrimaryRepository dailyMerchandiseSalesRepository) {
         this.productRepository = productRepository;
         this.dailyMerchandiseSalesRepository = dailyMerchandiseSalesRepository;
     }

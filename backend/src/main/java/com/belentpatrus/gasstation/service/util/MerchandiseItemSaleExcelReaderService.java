@@ -5,6 +5,7 @@ import com.belentpatrus.gasstation.model.enums.Department;
 import com.belentpatrus.gasstation.model.dailysales.MerchandiseItemSale;
 import com.belentpatrus.gasstation.model.enums.ProductCategory;
 import com.belentpatrus.gasstation.repository.dailysales.DailyMerchandiseSalesRepository;
+import com.belentpatrus.gasstation.repository.primary.dailysales.DailyMerchandiseSalesPrimaryRepository;
 import org.apache.logging.log4j.util.TriConsumer;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.ss.util.NumberToTextConverter;
@@ -27,10 +28,10 @@ import org.apache.poi.ss.usermodel.*;
 @Service
 public class MerchandiseItemSaleExcelReaderService {
 
-    private DailyMerchandiseSalesRepository dailyMerchandiseSalesRepository;
+    private DailyMerchandiseSalesPrimaryRepository dailyMerchandiseSalesRepository;
 
     @Autowired
-    public MerchandiseItemSaleExcelReaderService(DailyMerchandiseSalesRepository dailyMerchandiseSalesRepository) {
+    public MerchandiseItemSaleExcelReaderService(DailyMerchandiseSalesPrimaryRepository dailyMerchandiseSalesRepository) {
         this.dailyMerchandiseSalesRepository = dailyMerchandiseSalesRepository;
     }
 
@@ -126,14 +127,8 @@ public class MerchandiseItemSaleExcelReaderService {
             e.printStackTrace();
         }
 
-        List<DailyMerchandiseSales> existing = dailyMerchandiseSalesRepository.findByDate(dailyMerchandiseSales.getDate());
-
-        if (!existing.isEmpty()) {
-            dailyMerchandiseSales.setId(existing.get(0).getId());
-        }
         dailyMerchandiseSales.setMerchandiseItemSales(products);
-        return dailyMerchandiseSalesRepository.save(dailyMerchandiseSales);
-
+        return dailyMerchandiseSales;
     }
 
     private void totalRow(Row row, DailyMerchandiseSales dailyMerchandiseSales) {

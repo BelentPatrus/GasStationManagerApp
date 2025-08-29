@@ -2,8 +2,8 @@ package com.belentpatrus.gasstation.service.inventory;
 
 import com.belentpatrus.gasstation.model.inventory.Product;
 import com.belentpatrus.gasstation.model.inventory.ProductStockLedger;
-import com.belentpatrus.gasstation.repository.inventory.ProductRepository;
-import com.belentpatrus.gasstation.repository.inventory.ProductStockLedgerRepository;
+import com.belentpatrus.gasstation.repository.primary.inventory.ProductPrimaryRepository;
+import com.belentpatrus.gasstation.repository.primary.inventory.ProductStockLedgerPrimaryRepository;
 import com.belentpatrus.gasstation.service.dto.ProductDTO;
 import com.belentpatrus.gasstation.service.dto.ProductStockLedgerDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -17,11 +17,11 @@ import java.util.List;
 @Slf4j
 public class ProductService {
 
-    private final ProductRepository productRepository;
-    private final ProductStockLedgerRepository productStockLedgerRepository;
+    private final ProductPrimaryRepository productRepository;
+    private final ProductStockLedgerPrimaryRepository productStockLedgerRepository;
 
     @Autowired
-    public ProductService(ProductRepository productRepository, ProductStockLedgerRepository productStockLedgerRepository) {
+    public ProductService(ProductPrimaryRepository productRepository, ProductStockLedgerPrimaryRepository productStockLedgerRepository) {
 
         this.productRepository = productRepository;
         this.productStockLedgerRepository = productStockLedgerRepository;
