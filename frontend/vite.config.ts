@@ -16,6 +16,10 @@ export default defineConfig({
         target: "http://localhost:8080", // change if your backend runs elsewhere/port
         changeOrigin: true,
       },
+      "/dac": {
+        target: "http://localhost:8080", // change if your backend runs elsewhere/port
+        changeOrigin: true,
+      },
     },
   },
 });

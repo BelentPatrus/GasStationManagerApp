@@ -3,6 +3,8 @@ import { createPortal } from "react-dom";
 
 const API_BASE = "/product";
 const ADD_URL = "/product/create"; // Nginx will proxy this to the backend
+const GET_DEPARTMENTS_URL = "dac/departments"; // Nginx will proxy this to the backend
+const GET_PRODUCTCATEGORIES_URL = "dac/categories"; // Nginx will proxy this to the backend
 
 const getModalRoot = () => {
   let el = document.getElementById("modal-root");
@@ -18,7 +20,30 @@ const AddProductModal = forwardRef(function AddProductModal({ onSaved }, ref) {
   const [open, setOpen] = useState(false);
   const [saving, setSaving] = useState(false);
   const [draft, setDraft] = useState(null);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [departments, setDepartments] = useState([]);
+  const [productCategories, setProductCategories] = useState([]);
+
   const modalRoot = getModalRoot();
+
+  function parseJsonOrThrow(res) {
+  return res.text().then((text) => {
+    try {
+      const data = text ? JSON.parse(text) : null;
+      if (!res.ok)
+        throw new Error(data?.message || data?.error || res.statusText);
+      return data;
+    } catch (e) {
+      if (e instanceof SyntaxError) {
+        // backend returned HTML (e.g., 404 page/login)
+        const snippet = (text || "").slice(0, 240);
+        throw new Error(snippet || `Non-JSON response (HTTP ${res.status})`);
+      }
+      throw e;
+    }
+  });
+}
 
   useImperativeHandle(ref, () => ({
     open() {
@@ -46,6 +71,10 @@ const AddProductModal = forwardRef(function AddProductModal({ onSaved }, ref) {
     if (!open) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    loadDepartments();
+    const productCategories = loadProductCategories();
+    console.log(departments);
+    console.log(productCategories);
     return () => {
       document.body.style.overflow = prev;
     };
@@ -53,6 +82,45 @@ const AddProductModal = forwardRef(function AddProductModal({ onSaved }, ref) {
 
   function onChange(field, val) {
     setDraft((d) => ({ ...d, [field]: val }));
+  }
+
+  async function loadDepartments() {
+    setLoading(true);
+    setError("");
+    try {
+      const res = await fetch(GET_DEPARTMENTS_URL, {
+        headers: { Accept: "application/json" },
+        credentials: "include",
+      });
+      const data = await parseJsonOrThrow(res);
+      const items = Array.isArray(data) ? data : data?.content ?? [];
+      setDepartments(items);
+      return items; // optional; remove if you don’t need it
+    } catch (e) {
+      setError(e.message || "Failed to load departments");
+      setDepartments([]);
+      throw e; // optional; lets caller .catch
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function loadProductCategories() {
+    try {
+      setLoading(true);
+      setError("");
+      const res = await fetch(GET_PRODUCTCATEGORIES_URL, {
+        headers: { Accept: "application/json" },
+        credentials: "include",
+      });
+      const data = await parseJsonOrThrow(res);
+      const items = Array.isArray(data) ? data : data?.content || [];
+      setProductCategories(items);
+    } catch (e) {
+      setError(e.message || "Failed to load categories");
+    } finally {
+      setLoading(false);
+    }
   }
 
   async function save() {
@@ -142,8 +210,7 @@ const AddProductModal = forwardRef(function AddProductModal({ onSaved }, ref) {
             <div className="px-5 py-10 text-center text-gray-500">Loading…</div>
           ) : (
             <div className="px-5 py-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-              {console.log(draft)}
-               <Field label="UPC">
+              <Field label="UPC">
                 <input
                   className="w-full rounded-lg border px-3 py-2"
                   value={draft.UPC}
@@ -164,19 +231,59 @@ const AddProductModal = forwardRef(function AddProductModal({ onSaved }, ref) {
                   onChange={(e) => onChange("brand", e.target.value)}
                 />
               </Field>
-              <Field label="Depatment">
-                <input
+              {/* Department (dropdown) */}
+              <Field label="Department">
+                <select
                   className="w-full rounded-lg border px-3 py-2"
-                  value={draft.department}
+                  value={draft.department ?? ""} // current value
                   onChange={(e) => onChange("department", e.target.value)}
-                />
+                  disabled={loading || !departments.length}
+                >
+                  <option value="" disabled>
+                    {loading ? "Loading…" : "Choose department"}
+                  </option>
+
+                  {departments.map((d) => {
+                    // handle both string items or objects like {value, name/label}
+                    const value = typeof d === "string" ? d : d.value ?? d.name;
+                    const label =
+                      typeof d === "string"
+                        ? pretty(value)
+                        : d.label ?? pretty(value);
+                    return (
+                      <option key={value} value={value}>
+                        {label}
+                      </option>
+                    );
+                  })}
+                </select>
               </Field>
+
+              {/* Category (dropdown) */}
               <Field label="Category">
-                <input
+                <select
                   className="w-full rounded-lg border px-3 py-2"
-                  value={draft.category}
-                  onChange={(e) => onChange("category", e.target.value)}
-                />
+                  value={draft.productCategory ?? draft.category ?? ""} // whichever key you use
+                  onChange={(e) => onChange("category", e.target.value)} // keep key consistent
+                  disabled={loading || !productCategories.length}
+                >
+                  <option value="" disabled>
+                    {loading ? "Loading…" : "Choose category"}
+                  </option>
+
+                  {productCategories.map((c) => {
+                    const value = typeof c === "string" ? c : c.value ?? c.name;
+                    const label =
+                      typeof c === "string"
+                        ? pretty(value)
+                        : c.label ?? pretty(value);
+                    return (
+                      <option key={value} value={value}>
+                        {label}
+                      </option>
+                    );
+                  })}
+                </select>
               </Field>
               <Field label="PackageType">
                 <input
@@ -251,3 +358,9 @@ function Field({ label, children }) {
     </label>
   );
 }
+
+function pretty(s = "") {
+  return s.replace(/_/g, " ").toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+
