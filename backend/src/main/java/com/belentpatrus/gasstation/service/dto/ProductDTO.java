@@ -1,8 +1,8 @@
 package com.belentpatrus.gasstation.service.dto;
 
 
-import com.belentpatrus.gasstation.model.dailysales.enums.Department;
-import com.belentpatrus.gasstation.model.dailysales.enums.ProductCategory;
+import com.belentpatrus.gasstation.model.enums.Department;
+import com.belentpatrus.gasstation.model.enums.ProductCategory;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,4 +1,4 @@
-package com.belentpatrus.gasstation.model.dailysales.enums;
+package com.belentpatrus.gasstation.model.enums;
 
 public enum ProductCategory {
     CIGARETTES_CAT(20),

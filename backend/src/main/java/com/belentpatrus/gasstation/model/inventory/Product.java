@@ -1,8 +1,8 @@
 package com.belentpatrus.gasstation.model.inventory;
 
 
-import com.belentpatrus.gasstation.model.dailysales.enums.Department;
-import com.belentpatrus.gasstation.model.dailysales.enums.ProductCategory;
+import com.belentpatrus.gasstation.model.enums.Department;
+import com.belentpatrus.gasstation.model.enums.ProductCategory;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;

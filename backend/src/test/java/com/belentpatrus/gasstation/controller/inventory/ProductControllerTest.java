@@ -8,8 +8,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import com.belentpatrus.gasstation.model.dailysales.enums.Department;
-import com.belentpatrus.gasstation.model.dailysales.enums.ProductCategory;
+import com.belentpatrus.gasstation.model.enums.Department;
+import com.belentpatrus.gasstation.model.enums.ProductCategory;
 
 import java.util.List;
 

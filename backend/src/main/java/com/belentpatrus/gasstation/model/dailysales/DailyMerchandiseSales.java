@@ -1,8 +1,7 @@
 package com.belentpatrus.gasstation.model.dailysales;
 
-import com.belentpatrus.gasstation.model.dailysales.enums.Department;
-import com.belentpatrus.gasstation.model.dailysales.enums.ProductCategory;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.belentpatrus.gasstation.model.enums.Department;
+import com.belentpatrus.gasstation.model.enums.ProductCategory;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,7 +31,7 @@ public class DailyMerchandiseSales {
     private List<Department> departmentSales = new ArrayList<>();
 
     @ElementCollection
-    private List<com.belentpatrus.gasstation.model.dailysales.enums.ProductCategory> ProductCategory = new ArrayList<>();
+    private List<com.belentpatrus.gasstation.model.enums.ProductCategory> ProductCategory = new ArrayList<>();
 
     @OneToMany(mappedBy = "dailyMerchandiseSales", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MerchandiseItemSale> merchandiseItemSales;

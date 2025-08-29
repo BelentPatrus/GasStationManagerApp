@@ -13,7 +13,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/product")
-@Slf4j
 public class ProductController {
     private final ProductService productService;
 
@@ -24,7 +23,6 @@ public class ProductController {
 
     @GetMapping("/")
     public List<Product> getProducts() {
-        log.info("Getting all products");
         return productService.getProducts();
     }
 

@@ -1,9 +1,9 @@
 package com.belentpatrus.gasstation.service.util;
 
 import com.belentpatrus.gasstation.model.dailysales.DailyMerchandiseSales;
-import com.belentpatrus.gasstation.model.dailysales.enums.Department;
+import com.belentpatrus.gasstation.model.enums.Department;
 import com.belentpatrus.gasstation.model.dailysales.MerchandiseItemSale;
-import com.belentpatrus.gasstation.model.dailysales.enums.ProductCategory;
+import com.belentpatrus.gasstation.model.enums.ProductCategory;
 import com.belentpatrus.gasstation.repository.dailysales.DailyMerchandiseSalesRepository;
 import org.apache.logging.log4j.util.TriConsumer;
 import org.apache.poi.EncryptedDocumentException;

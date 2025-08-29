@@ -1,8 +1,6 @@
 package com.belentpatrus.gasstation.service.inventory;
 
-import com.belentpatrus.gasstation.model.dailysales.DailyMerchandiseSales;
-import com.belentpatrus.gasstation.model.dailysales.MerchandiseItemSale;
-import com.belentpatrus.gasstation.model.dailysales.enums.ProductCategory;
+import com.belentpatrus.gasstation.model.enums.ProductCategory;
 import com.belentpatrus.gasstation.model.inventory.LotteryTrackerLog;
 import com.belentpatrus.gasstation.repository.inventory.LotteryTrackerRepository;
 import com.belentpatrus.gasstation.service.dailysales.DailyMerchandiseSalesSummaryService;

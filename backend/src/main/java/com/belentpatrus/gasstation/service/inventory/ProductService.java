@@ -1,8 +1,11 @@
 package com.belentpatrus.gasstation.service.inventory;
 
 import com.belentpatrus.gasstation.model.inventory.Product;
+import com.belentpatrus.gasstation.model.inventory.ProductStockLedger;
 import com.belentpatrus.gasstation.repository.inventory.ProductRepository;
+import com.belentpatrus.gasstation.repository.inventory.ProductStockLedgerRepository;
 import com.belentpatrus.gasstation.service.dto.ProductDTO;
+import com.belentpatrus.gasstation.service.dto.ProductStockLedgerDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,10 +18,14 @@ import java.util.List;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final ProductStockLedgerRepository productStockLedgerRepository;
 
     @Autowired
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository, ProductStockLedgerRepository productStockLedgerRepository) {
+
         this.productRepository = productRepository;
+        this.productStockLedgerRepository = productStockLedgerRepository;
+
     }
 
     public List<Product> getProducts() {
@@ -44,6 +51,31 @@ public class ProductService {
         return productRepository.save(product);
     }
 
+    public ProductStockLedger createProductStockLedger(ProductStockLedgerDTO productStockLedgerDTO) {
+        Product product = productRepository.findById(productStockLedgerDTO.getUpc()).orElse(null);
+        if (product != null) {
+            ProductStockLedger productStockLedger = new ProductStockLedger();
+            productStockLedger.setUpc(productStockLedgerDTO.getUpc());
+            productStockLedger.setDelta(productStockLedgerDTO.getDelta());
+            productStockLedger.setType(productStockLedgerDTO.getType());
+            productStockLedger.setUnitCost(productStockLedgerDTO.getUnitCost());
+            productStockLedger.setReference(productStockLedgerDTO.getReference());
+            productStockLedger.setIdempotencyKey(productStockLedgerDTO.getIdempotencyKey());
+            return productStockLedgerRepository.save(productStockLedger);
+        }else{
+            log.error("product not found : {}", productStockLedgerDTO);
+            return null;
+        }
+    }
+
+    public void updateProductStock(ProductStockLedger response) {
+        Product product = productRepository.findById(response.getUpc()).orElse(null);
+        if (product != null) {
+            product.setCurrentStock(product.getCurrentStock() + response.getDelta());
+            productRepository.save(product);
+        }
+    }
+
     private void dtoToProduct(ProductDTO productDTO, Product product) {
         product.setDescription(productDTO.getDescription());
         product.setBrand(productDTO.getBrand());
@@ -54,4 +86,6 @@ public class ProductService {
         product.setRetailPrice(productDTO.getRetailPrice());
         product.setCurrentStock(productDTO.getCurrentStock());
     }
+
+
 }

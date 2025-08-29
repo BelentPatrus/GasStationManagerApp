@@ -1,9 +1,7 @@
 package com.belentpatrus.gasstation.model.dailysales;
 
-import com.belentpatrus.gasstation.model.dailysales.enums.Department;
-import com.belentpatrus.gasstation.model.dailysales.enums.ProductCategory;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.annotation.Nullable;
+import com.belentpatrus.gasstation.model.enums.Department;
+import com.belentpatrus.gasstation.model.enums.ProductCategory;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

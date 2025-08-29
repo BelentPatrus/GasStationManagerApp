@@ -1,8 +1,7 @@
 package com.belentpatrus.gasstation.controller.dailysales;
 
 
-import com.belentpatrus.gasstation.model.dailysales.DailyMerchandiseSales;
-import com.belentpatrus.gasstation.model.dailysales.enums.Department;
+import com.belentpatrus.gasstation.model.enums.Department;
 import com.belentpatrus.gasstation.service.dailysales.DailyMerchandiseSalesSummaryService;
 import com.belentpatrus.gasstation.service.util.SyncService;
 import com.belentpatrus.gasstation.service.dto.DailyMerchandiseSalesSummaryDTO;
