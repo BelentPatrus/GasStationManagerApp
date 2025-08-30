@@ -1,8 +1,6 @@
 package com.belentpatrus.gasstation.service.util;
 
 import com.belentpatrus.gasstation.model.inventory.Product;
-import com.belentpatrus.gasstation.repository.dailysales.DailyMerchandiseSalesRepository;
-import com.belentpatrus.gasstation.repository.inventory.ProductRepository;
 import com.belentpatrus.gasstation.repository.primary.dailysales.DailyMerchandiseSalesPrimaryRepository;
 import com.belentpatrus.gasstation.repository.primary.inventory.ProductPrimaryRepository;
 import com.belentpatrus.gasstation.service.dto.DailyMerchandiseSalesSummaryDTO;

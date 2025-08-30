@@ -2,7 +2,7 @@ package com.belentpatrus.gasstation.repository.secondary.dailysales;
 
 import com.belentpatrus.gasstation.model.dailysales.DailyMerchandiseSales;
 import com.belentpatrus.gasstation.model.dailysales.MerchandiseItemSale;
-import com.belentpatrus.gasstation.model.dailysales.enums.ProductCategory;
+import com.belentpatrus.gasstation.model.enums.ProductCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
