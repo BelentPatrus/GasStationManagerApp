@@ -1,6 +1,6 @@
 package com.belentpatrus.gasstation.model.inventory;
 
-import com.belentpatrus.gasstation.model.dailysales.ProductStockLedgerTransactionType;
+import com.belentpatrus.gasstation.model.enums.ProductStockLedgerTransactionType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

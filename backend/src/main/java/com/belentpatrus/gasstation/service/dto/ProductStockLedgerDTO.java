@@ -1,16 +1,11 @@
 package com.belentpatrus.gasstation.service.dto;
 
-import com.belentpatrus.gasstation.model.dailysales.ProductStockLedgerTransactionType;
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.belentpatrus.gasstation.model.enums.ProductStockLedgerTransactionType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 
 @Data
 @NoArgsConstructor

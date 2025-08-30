@@ -213,8 +213,8 @@ const AddProductModal = forwardRef(function AddProductModal({ onSaved }, ref) {
               <Field label="UPC">
                 <input
                   className="w-full rounded-lg border px-3 py-2"
-                  value={draft.UPC}
-                  onChange={(e) => onChange("UPC", e.target.value)}
+                  value={draft.upc}
+                  onChange={(e) => onChange("upc", e.target.value)}
                 />
               </Field>
               <Field label="Description">
