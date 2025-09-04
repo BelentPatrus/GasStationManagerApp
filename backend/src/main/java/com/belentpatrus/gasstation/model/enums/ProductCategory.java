@@ -7,6 +7,7 @@ public enum ProductCategory {
     CANDY(80),
     FLUID_MILK_PRODUCTS(90),
     PACKG_ICE_CREAM_NOVELTIES(120),
+    FROZEN_FOODS(130),
     SALTY_SNACKS(150),
     PACKAGED_SWEET_SNACKS(160),
     ALTERNATIVE_SNACKS(170),
@@ -20,6 +21,9 @@ public enum ProductCategory {
     PREPAID_CARDS(310),
     SCRATCH_LOTTO(320),
     LOTTO(330),
+    BEER(350),
+    WINE(360),
+    LIQUOR(380),
     OTHER(9999);
 
 
