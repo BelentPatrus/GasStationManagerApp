@@ -116,7 +116,7 @@ public class MerchandiseItemSaleExcelReaderService {
                     }
                 }
                 if(product.getUpc() != null){
-                    product.setProductCategory(dailyMerchandiseSales.getProductCategory().getLast());
+                    product.setProductCategory(dailyMerchandiseSales.getProductCategories().getLast());
                     product.setDepartment(dailyMerchandiseSales.getDepartmentSales().getLast());
                     product.setDailyMerchandiseSales(dailyMerchandiseSales);
                     products.add(product);

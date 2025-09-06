@@ -10,7 +10,9 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Component
@@ -27,11 +29,23 @@ public class DailyMerchandiseSales {
     private double totalExtendedRetail;
     private int totalQuantitySold;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(
+            name = "daily_merchandise_sales_department_sales",
+            joinColumns = @JoinColumn(name = "daily_merchandise_sales_id")
+    )
+    @Column(name = "department_sales", nullable = false)
+    @Enumerated(EnumType.STRING)   // store 'BEER', 'OTHER', etc.
     private List<Department> departmentSales = new ArrayList<>();
 
-    @ElementCollection
-    private List<com.belentpatrus.gasstation.model.enums.ProductCategory> ProductCategory = new ArrayList<>();
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(
+            name = "daily_merchandise_sales_product_category",
+            joinColumns = @JoinColumn(name = "daily_merchandise_sales_id")
+    )
+    @Column(name = "product_category", nullable = false)
+    @Enumerated(EnumType.STRING)   // store 'BEER', 'OTHER', etc.
+    private List<ProductCategory> productCategories = new ArrayList<>();
 
     @OneToMany(mappedBy = "dailyMerchandiseSales", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MerchandiseItemSale> merchandiseItemSales;
@@ -43,11 +57,11 @@ public class DailyMerchandiseSales {
     }
 
     public void addDepartment(Department department) {
-        this.departmentSales.add(department);
+        departmentSales.add(department);
     }
 
     public void addProductCategory(ProductCategory productCategory) {
-        this.ProductCategory.add(productCategory);
+        productCategories.add(productCategory);
     }
 
 

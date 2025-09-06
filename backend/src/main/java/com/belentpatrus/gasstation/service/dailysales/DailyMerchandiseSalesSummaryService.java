@@ -72,7 +72,7 @@ public class DailyMerchandiseSalesSummaryService {
             dto.getDepartmentSales().put(department, getTotalSoldByDepartment(dailyMerchandiseSales.getId(), department));
         }
 
-        for(ProductCategory productCategory : dailyMerchandiseSales.getProductCategory()) {
+        for(ProductCategory productCategory : dailyMerchandiseSales.getProductCategories()) {
             dto.getProductCategorySales().put(productCategory, getTotalSoldByProductCategory(dailyMerchandiseSales.getId(), productCategory));
         }
     }
