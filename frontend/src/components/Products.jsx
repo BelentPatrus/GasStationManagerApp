@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useRef } from "react";
 import EditModal from "./productcomponents/EditModal.jsx";
 import AddProductModal from "./productcomponents/AddProductModal.jsx";
+import { api } from "@/utils/api";
 
 /**
  * BasicProductsTable — minimal, nice-looking Bootstrap table
@@ -16,24 +17,6 @@ import AddProductModal from "./productcomponents/AddProductModal.jsx";
  */
 
 const API_PRODUCTS = `/api/product/`; // <-- change to your real endpoint
-
-function parseJsonOrThrow(res) {
-  return res.text().then((text) => {
-    try {
-      const data = text ? JSON.parse(text) : null;
-      if (!res.ok)
-        throw new Error(data?.message || data?.error || res.statusText);
-      return data;
-    } catch (e) {
-      if (e instanceof SyntaxError) {
-        // backend returned HTML (e.g., 404 page/login)
-        const snippet = (text || "").slice(0, 240);
-        throw new Error(snippet || `Non-JSON response (HTTP ${res.status})`);
-      }
-      throw e;
-    }
-  });
-}
 
 export default function Products() {
   const [rows, setRows] = useState([]);
@@ -74,12 +57,13 @@ export default function Products() {
     try {
       setLoading(true);
       setError("");
-      const res = await fetch(API_PRODUCTS, {
-        headers: { Accept: "application/json" },
-        credentials: "include",
-      });
-      const data = await parseJsonOrThrow(res);
-      const items = Array.isArray(data) ? data : data?.content || [];
+
+      const data = await api.get(API_PRODUCTS);
+
+      const items = Array.isArray(data)
+        ? data
+        : data?.content || [];
+
       setRows(items);
     } catch (e) {
       setError(e.message || "Failed to load products");

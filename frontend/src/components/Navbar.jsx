@@ -57,6 +57,12 @@ const Navbar = () => {
                 Lottery
               </Link>
             </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/products">
+                <i className="bi bi-backpack2 me-1"></i>
+                Products
+              </Link>
+            </li>
           </ul>
           
           {/* User Info & Logout */}
