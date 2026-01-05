@@ -20,17 +20,8 @@ const UploadExcel = () => {
     formData.append("file", file);
 
     try {
-      const response = await axios.post(`${API_BASE_URL}/api/upload-excel`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-
-      if (response.status === 200) {
-        setUploadStatus("File uploaded successfully!");
-      } else {
-        setUploadStatus("Upload failed. Try again.");
-      }
+      await api.postForm('/api/upload-excel', formData);
+      setUploadStatus("File uploaded successfully!");
     } catch (error) {
       console.error("Upload error:", error);
       setUploadStatus("Error uploading file.");

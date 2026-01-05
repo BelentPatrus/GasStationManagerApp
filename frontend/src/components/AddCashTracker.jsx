@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { api } from '@/utils/api';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { API_BASE_URL } from "../config/api";
 
@@ -53,8 +53,8 @@ const DailyCashTrackerForm = () => {
     setErrorMessage("");
 
     try {
-      const response = await axios.post(`/cash/${formData.date}`, formData);
-      if (response.data) {
+      const data = await api.post(`/api/cash/${formData.date}`, formData);
+      if (data) {
         setSuccessMessage("Daily Cash Tracker saved successfully!");
         setFormData({
           date: "",

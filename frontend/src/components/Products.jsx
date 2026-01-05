@@ -15,7 +15,7 @@ import AddProductModal from "./productcomponents/AddProductModal.jsx";
  *   "/consumer/products" or "/api/products").
  */
 
-const API_PRODUCTS = `/product/`; // <-- change to your real endpoint
+const API_PRODUCTS = `/api/product/`; // <-- change to your real endpoint
 
 function parseJsonOrThrow(res) {
   return res.text().then((text) => {

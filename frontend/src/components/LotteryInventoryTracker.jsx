@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { api } from '@/utils/api';
 import "bootstrap/dist/css/bootstrap.min.css";
 import MorningCountDisplay from "./lotterycomponents/MorningCountDisplay";
 import OpenedTicketsDisplay from "./lotterycomponents/OpenedTicketsDisplay";
@@ -25,7 +25,7 @@ const LotteryInventoryTracker = () => {
     if (!selectedDate) return;
 
     try {
-      const { data } = await axios.get(`${API_BASE_URL}/lottery/log/${selectedDate}`);
+      const data  = await api.get(`${API_BASE_URL}/lottery/log/${selectedDate}`);
       if (!data) return setLotteryData(null);
 
       setLotteryData(data);
@@ -68,10 +68,10 @@ const LotteryInventoryTracker = () => {
     };
   
     try {
-      const response = await axios.post(`${API_BASE_URL}/lottery/save`, requestData);
+      const data = await api.post(`/api/lottery/save`, requestData);
       // Navigate to success page after submission
             // Navigate to success page with the selected date
-            navigate(`/lottery/${selectedDate}/success`);
+            navigate(`/api/lottery/${selectedDate}/success`);
     } catch (error) {
       console.error("Error submitting data:", error);
       alert("Failed to submit data. Please try again.");

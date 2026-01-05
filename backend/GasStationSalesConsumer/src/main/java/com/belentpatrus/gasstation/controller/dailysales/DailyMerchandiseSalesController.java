@@ -1,0 +1,63 @@
+package com.belentpatrus.gasstation.controller.dailysales;
+
+
+import com.belentpatrus.gasstation.model.enums.Department;
+import com.belentpatrus.gasstation.service.dailysales.DailyMerchandiseSalesSummaryService;
+import com.belentpatrus.gasstation.service.util.SyncService;
+import com.belentpatrus.gasstation.service.dto.DailyMerchandiseSalesSummaryDTO;
+import com.belentpatrus.gasstation.service.dto.SyncDailyMerchandiseSalesAndProductDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.util.List;
+
+@RequestMapping("/api/consumer")
+@RestController
+public class DailyMerchandiseSalesController {
+
+
+    private DailyMerchandiseSalesSummaryService dailyMerchandiseSalesSummaryService;
+    private SyncService syncService;
+
+    @Autowired
+    public DailyMerchandiseSalesController(DailyMerchandiseSalesSummaryService dailyMerchandiseSalesSummaryService, SyncService syncService) {
+        this.dailyMerchandiseSalesSummaryService = dailyMerchandiseSalesSummaryService;
+        this.syncService = syncService;
+
+    }
+
+    @GetMapping("/{date}")
+    public DailyMerchandiseSalesSummaryDTO getSummary(@PathVariable("date") String date) {
+        LocalDate localDate = LocalDate.parse(date);
+        return dailyMerchandiseSalesSummaryService.getDailyMerchandiseSales(localDate);
+    }
+
+    @GetMapping("/all/{date}")
+    public List<LocalDate> getAllDailyMerchandiseSales(@PathVariable("date") String date){
+
+        return dailyMerchandiseSalesSummaryService.getAllDailyMerchandiseSales(date);
+    }
+
+    @GetMapping("/{id}/{department}")
+    public double getSummary(@PathVariable("id") long id, @PathVariable("department") Department department) {
+        return dailyMerchandiseSalesSummaryService.getTotalSoldByDepartment(id, department);
+    }
+
+    @GetMapping("/getsummary/{date}")
+    public DailyMerchandiseSalesSummaryDTO getDepartmentSummary(@PathVariable("date") String date) {
+        LocalDate localDate = LocalDate.parse(date);
+        return dailyMerchandiseSalesSummaryService.getDailyMerchandiseSalesSummary(localDate);
+    }
+
+    @GetMapping("/sync/{date}")
+    public SyncDailyMerchandiseSalesAndProductDTO returnNotSynced(@PathVariable("date") String date) {
+        LocalDate localDate = LocalDate.parse(date);
+        DailyMerchandiseSalesSummaryDTO dailyMerchandiseSalesSummaryDTO = dailyMerchandiseSalesSummaryService.getDailyMerchandiseSales(localDate);
+        return syncService.notSyncedMerchandiseItemSales(dailyMerchandiseSalesSummaryDTO);
+
+    }
+
+
+
+}

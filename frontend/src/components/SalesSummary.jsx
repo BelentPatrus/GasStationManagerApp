@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { api } from '@/utils/api';
 import DepartmentAndCategorySales from "./DepartmentAndCategorySales";
 import DepartmentSalesChart from "./DepartmentSalesChart";
-import { API_BASE_URL } from "../config/api";
 
 const SalesSummary = () => {
   const [date, setDate] = useState("");
@@ -27,9 +26,8 @@ const SalesSummary = () => {
       // Create a date string for the first day of the month (YYYY-MM-01)
       const monthStr = String(month + 1).padStart(2, '0');
       const dateStr = `${year}-${monthStr}-01`;
-      
-      const response = await axios.get(`/consumer/all/${dateStr}`);
-      setAvailableDates(response.data || []);
+      const data = await api.get(`/api/consumer/all/${dateStr}`);
+      setAvailableDates(data || []);
     } catch (error) {
       console.error("Error fetching available dates:", error);
       setAvailableDates([]);
@@ -48,9 +46,9 @@ const SalesSummary = () => {
   const fetchSalesData = async () => {
     if (!date) return;
     try {
-      const response = await axios.get(`/consumer/${date}`);
-      if (response.data && response.data.merchandiseItemSales.length > 0) {
-        setSalesData(response.data);
+      const data = await api.get(`/api/consumer/${date}`);
+      if (data && data.merchandiseItemSales.length > 0) {
+        setSalesData(data);
         setNoData(false);
       } else {
         setSalesData(null);

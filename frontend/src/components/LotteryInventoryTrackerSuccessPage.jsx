@@ -1,6 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import axios from "axios";
+import { api } from '@/utils/api';
 import { API_BASE_URL } from "../config/api";
 
 const LotteryInventoryTrackerSuccessPage = () => {
@@ -16,7 +16,7 @@ const LotteryInventoryTrackerSuccessPage = () => {
 
   const fetchSalesData = async () => {
     try {
-      const { data } = await axios.get(`${API_BASE_URL}/lottery/report/${date}`);
+      const data = await api.get(`/api/lottery/report/${date}`);
       console.log("Fetched Data:", data);
       setLotteryReportData(data);
     } catch (error) {
