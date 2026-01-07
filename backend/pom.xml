@@ -1,5 +1,14 @@
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.5.9</version>
+        <relativePath/>
+    </parent>
 
     <groupId>com.belentpatrus</groupId>
     <artifactId>backend</artifactId>
@@ -7,24 +16,33 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>GasStationSalesConsumer</module>
+        <module>gasbuddy-app</module>
         <module>identity</module>
     </modules>
 
     <properties>
         <java.version>21</java.version>
-        <spring.boot.version>3.5.9</spring.boot.version>
+        <lombok.version>1.18.42</lombok.version>
+        <jjwt.version>0.12.6</jjwt.version>
+        <uuid.creator.version>6.0.0</uuid.creator.version>
+        <poi.version>5.2.3</poi.version>
+        <jakarta.mail.version>2.0.1</jakarta.mail.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring.boot.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
+                <groupId>com.belentpatrus</groupId>
+                <artifactId>identity</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.belentpatrus</groupId>
+                <artifactId>gasbuddy-app</artifactId>
+                <version>${project.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
+
 </project>
